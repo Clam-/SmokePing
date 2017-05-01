@@ -121,6 +121,7 @@ sub ping ($){
     my @params = () ;
     push @params, "-b$self->{properties}{packetsize}" if $self->{properties}{packetsize};
     push @params, "-t" . int(1000 * $self->{properties}{timeout}) if $self->{properties}{timeout};
+    push @params, "-I" . $self->{properties}{interface} if $self->{properties}{interface};
     push @params, "-i" . int(1000 * $self->{properties}{mininterval});
     push @params, "-p" . int(1000 * $self->{properties}{hostinterval}) if $self->{properties}{hostinterval};
     if ($self->rounds_count == 1 and $self->{properties}{sourceaddress} and not $self->{enable}{S}){
@@ -245,6 +246,12 @@ The fping "-S" parameter . From fping(1):
 Set source address.
 DOC
 		},
+        interface => {
+            _doc => <<DOC,
+The "-I" fping(1) option.  bind to a particular interface.
+DOC
+            _example => 'eth0',
+        },
 		tos => {
 			_re => '\d+|0x[0-9a-zA-Z]+',
 			_example => '0x20',
